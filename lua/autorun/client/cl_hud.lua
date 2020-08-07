@@ -166,10 +166,20 @@ function MHUD.DrawHUD()
 	text('БРОНЕЖИЛЕТ', 'Font2', a2 + 125, ScrH() - 145, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
 	text(LocalPlayer():Armor(), 'SFont', a2 + 125, ScrH() - 130, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
 	text('ОРУЖИЕ', 'Font2', a2 + 125, ScrH() - 95, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text(LocalPlayer():GetActiveWeapon():GetPrintName(), 'SFont', a2 + 125, ScrH() - 80, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text('ПАТРОНЫ', 'Font2', a2 + 125, ScrH() - 45, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetActiveWeapon():GetMaxClip1(), 'SFont', a2 + 125, ScrH() - 30, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+	
+	if LocalPlayer():Health() > 0 and IsValid(LocalPlayer():GetActiveWeapon()) then
 
+		text(LocalPlayer():GetActiveWeapon():GetPrintName(), 'SFont', a2 + 125, ScrH() - 80, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+	
+	end
+
+	text('ПАТРОНЫ', 'Font2', a2 + 125, ScrH() - 45, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+	
+	if LocalPlayer():Health() > 0 and IsValid(LocalPlayer():GetActiveWeapon()) then
+		
+		text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetActiveWeapon():GetMaxClip1(), 'SFont', a2 + 125, ScrH() - 30, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+
+	end
 
 end
 
