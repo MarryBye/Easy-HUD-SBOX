@@ -1,7 +1,7 @@
 local MHUD = {}
 
 local a, b, a2, b2 = 0, 0, ScrW() * 0 - 250, 0
-local HUDEnable = false
+local HUDEnable = true
 
 surface.CreateFont( "3D_Font", {
 	
@@ -175,23 +175,25 @@ end
 
 hook.Add('HUDPaint', 'DrawHUD', MHUD.DrawHUD)
 
-hook.Add( "PlayerButtonDown", "ButtonUpWikiExample", function( ply, button )
-
+function MHUD.ButtonActivate(ply, button)
+		
 	if input.GetKeyName(button) == 'F9' then
 
 		if not HUDEnable then
-			
+				
 			HUDEnable = true
-		
-		else
 			
+		else
+				
 			HUDEnable = false
-		
+			
 		end
-	
+		
 	end
 
-end)
+end
+
+hook.Add("PlayerButtonDown", "ButtonActivate", MHUD.ButtonActivate)
 
 hook.Add("PostPlayerDraw", "3D2DNicks", function(ply)
 	
