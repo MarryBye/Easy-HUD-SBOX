@@ -229,7 +229,7 @@ hook.Add("PostPlayerDraw", "3D2DNicks", function(ply)
 
 		if LocalPlayer():GetEyeTrace().Entity:IsPlayer() then 
 
-			a = Lerp(mult, a, 32 * string.len(LocalPlayer():GetEyeTrace().Entity:Nick()))
+			a = Lerp(mult, a, 18 * string.len(LocalPlayer():GetEyeTrace().Entity:Nick()))
 			b = Lerp(mult2, b, 125)
 
 			box(7, -a / 2, 0, a, 50, Color(35, 35, 35, b))
