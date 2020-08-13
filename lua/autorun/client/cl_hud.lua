@@ -1,7 +1,7 @@
 local MHUD = {}
 
 local a, b, a2, b2 = 0, 0, ScrW() * 0 - 250, 0
-local HUDEnable = true
+--local HUDEnable = true
 
 surface.CreateFont( "3D_Font", {
 	
@@ -133,7 +133,7 @@ function MHUD.DrawHUD()
 
 	local multHUD = FrameTime()
 
-	if not HUDEnable then
+	if not LocalPlayer().HUDEnable then
 			
 		a2 = Lerp(multHUD, a2, ScrW() * 0)
 		b2 = Lerp(multHUD, b2, 175)
@@ -177,7 +177,7 @@ function MHUD.DrawHUD()
 	
 	if LocalPlayer():Health() > 0 and IsValid(LocalPlayer():GetActiveWeapon()) then
 		
-		text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetActiveWeapon():GetMaxClip1(), 'SFont', a2 + 125, ScrH() - 30, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+		text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetAmmoCount(LocalPlayer():GetActiveWeapon():GetPrimaryAmmoType()), 'SFont', a2 + 125, ScrH() - 30, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
 
 	end
 
@@ -189,14 +189,14 @@ function MHUD.ButtonActivate(ply, button)
 		
 	if input.GetKeyName(button) == 'F9' then
 
-		if not HUDEnable then
+		if not ply.HUDEnable then
 				
-			HUDEnable = true
+			ply.HUDEnable = true
 			
 		else
 				
-			HUDEnable = false
-			
+			ply.HUDEnable = false
+
 		end
 		
 	end
@@ -224,13 +224,12 @@ hook.Add("PostPlayerDraw", "3D2DNicks", function(ply)
 		
 	cam.Start3D2D(pos, Angle(0, ang.y, 90), 0.1)
 
-		local mult = 0.01
-		local mult2 = 0.01
+		local multiplayer_lerp = FrameTime()
 
 		if LocalPlayer():GetEyeTrace().Entity:IsPlayer() then 
 
-			a = Lerp(mult, a, 18 * string.len(LocalPlayer():GetEyeTrace().Entity:Nick()))
-			b = Lerp(mult2, b, 125)
+			a = Lerp(multiplayer_lerp, a, 1.35 * surface.GetTextSize(LocalPlayer():GetEyeTrace().Entity:Nick()))
+			b = Lerp(multiplayer_lerp, b, 125)
 
 			box(7, -a / 2, 0, a, 50, Color(35, 35, 35, b))
 			text(LocalPlayer():GetEyeTrace().Entity:Nick(), '3D_Font', 0, 5, Color(255, 255, 255, b), TEXT_ALIGN_CENTER)
