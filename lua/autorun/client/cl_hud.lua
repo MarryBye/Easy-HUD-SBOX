@@ -254,8 +254,8 @@ function MHUD.HeadNicks(ply)
 		
 	cam.Start3D2D(pos, Angle(0, ang.y, 90), 0.1)
 
-		boxWidthLerp3D = Lerp(0.001, boxWidthLerp3D, 1.35 * surface.GetTextSize(frontPlayerNick))
-		alphaLerp3D = Lerp(0.0001, alphaLerp3D, 125)
+		boxWidthLerp3D = Lerp(0.01, boxWidthLerp3D, 1.35 * surface.GetTextSize(frontPlayerNick))
+		alphaLerp3D = Lerp(0.001, alphaLerp3D, 125)
 
 		box(7, -boxWidthLerp3D / 2, 0, boxWidthLerp3D, 50, Color(35, 35, 35, alphaLerp3D))
 		text(frontPlayerNick, '3D_Font', 0, 5, Color(255, 255, 255, alphaLerp3D), TEXT_ALIGN_CENTER)
