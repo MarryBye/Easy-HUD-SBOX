@@ -1,7 +1,6 @@
 local MHUD = {}
 
-local a, b, a2, b2 = 0, 0, ScrW() * 0 - 250, 0
---local HUDEnable = true
+local boxWidthLerp3D, alphaLerp3D, animationHUD, alphaLerpHUD = 0, 0, ScrW() * 0 - 250, 0
 
 surface.CreateFont( "3D_Font", {
 	
@@ -88,6 +87,12 @@ local text = function(s, f, x, y, c, aX, aY)
 
 end
 
+--[[
+======================================================================
+==============================CLASSIC HUD===============================
+======================================================================
+]]
+
 MHUD.hud_list = {
 
     ["CHudHealth"] = true,
@@ -118,72 +123,73 @@ end
 
 hook.Add("HUDDrawTargetID", "HideMouseHUD", MHUD.HideMouseHUD)
 
-MHUD.DisplayNotify = function(msg)
-    
-    local txt = msg:ReadString()
-    GAMEMODE:AddNotify(txt, msg:ReadShort(), msg:ReadLong())
-    surface.PlaySound("buttons/lightswitch2.wav")
-    MsgC(Color(255, 20, 20, 255), "[DarkRP] ", Color(200, 200, 200, 255), txt, "\n")
-
-end
-
-usermessage.Hook("_Notify", MHUD.DisplayNotify) 
+--[[
+======================================================================
+===============================MAIN HUD================================
+======================================================================
+]]
 
 function MHUD.DrawHUD()
 
-	local multHUD = FrameTime()
+	local locply = LocalPlayer()
 
 	if not LocalPlayer().HUDEnable then
 			
-		a2 = Lerp(multHUD, a2, ScrW() * 0)
-		b2 = Lerp(multHUD, b2, 175)
+		animationHUD = Lerp(FrameTime(), animationHUD, ScrW() * 0)
+		alphaLerpHUD = Lerp(FrameTime(), alphaLerpHUD, 175)
 		
 	else
 			
-		a2 = Lerp(multHUD, a2, ScrW() * 0 - 250)
-		b2 = Lerp(multHUD, b2, 0)
+		animationHUD = Lerp(FrameTime(), animationHUD, ScrW() * 0 - 250)
+		alphaLerpHUD = Lerp(FrameTime(), alphaLerpHUD, 0)
 		
 	end
 	
-	box(1, a2, ScrH() - 250, 250, 35, Color(35, 35, 35, b2))
-	box(1, a2, ScrH() - 250, 5, 35, Color(255, 255, 255, b2))
+	box(1, animationHUD, ScrH() - 250, 250, 35, Color(35, 35, 35, alphaLerpHUD))
+	box(1, animationHUD, ScrH() - 250, 5, 35, Color(255, 255, 255, alphaLerpHUD))
 
-	box(1, a2, ScrH() - 200, 250, 35, Color(35, 35, 35, b2))
-	box(1, a2, ScrH() - 200, 5, 35, Color(255, 255, 255, b2))
+	box(1, animationHUD, ScrH() - 200, 250, 35, Color(35, 35, 35, alphaLerpHUD))
+	box(1, animationHUD, ScrH() - 200, 5, 35, Color(255, 255, 255, alphaLerpHUD))
 
-	box(1, a2, ScrH() - 150, 250, 35, Color(35, 35, 35, b2))
-	box(1, a2, ScrH() - 150, 5, 35, Color(255, 255, 255, b2))
+	box(1, animationHUD, ScrH() - 150, 250, 35, Color(35, 35, 35, alphaLerpHUD))
+	box(1, animationHUD, ScrH() - 150, 5, 35, Color(255, 255, 255, alphaLerpHUD))
 
-	box(1, a2, ScrH() - 100, 250, 35, Color(35, 35, 35, b2))
-	box(1, a2, ScrH() - 100, 5, 35, Color(255, 255, 255, b2))
+	box(1, animationHUD, ScrH() - 100, 250, 35, Color(35, 35, 35, alphaLerpHUD))
+	box(1, animationHUD, ScrH() - 100, 5, 35, Color(255, 255, 255, alphaLerpHUD))
 
-	box(1, a2, ScrH() - 50, 250, 35, Color(35, 35, 35, b2))
-	box(1, a2, ScrH() - 50, 5, 35, Color(255, 255, 255, b2))
+	box(1, animationHUD, ScrH() - 50, 250, 35, Color(35, 35, 35, alphaLerpHUD))
+	box(1, animationHUD, ScrH() - 50, 5, 35, Color(255, 255, 255, alphaLerpHUD))
 
-	text(LocalPlayer():Nick(), 'Font', a2 + 125, ScrH() - 243, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text('ЗДОРОВЬЕ', 'Font2', a2 + 125, ScrH() - 195, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text(LocalPlayer():Health(), 'SFont', a2 + 125, ScrH() - 180, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text('БРОНЕЖИЛЕТ', 'Font2', a2 + 125, ScrH() - 145, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text(LocalPlayer():Armor(), 'SFont', a2 + 125, ScrH() - 130, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
-	text('ОРУЖИЕ', 'Font2', a2 + 125, ScrH() - 95, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+	text(LocalPlayer():Nick(), 'Font', animationHUD + 125, ScrH() - 243, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
+	text('ЗДОРОВЬЕ', 'Font2', animationHUD + 125, ScrH() - 195, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
+	text(LocalPlayer():Health(), 'SFont', animationHUD + 125, ScrH() - 180, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
+	text('БРОНЕЖИЛЕТ', 'Font2', animationHUD + 125, ScrH() - 145, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
+	text(LocalPlayer():Armor(), 'SFont', animationHUD + 125, ScrH() - 130, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
+	text('ОРУЖИЕ', 'Font2', animationHUD + 125, ScrH() - 95, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
 	
 	if LocalPlayer():Health() > 0 and IsValid(LocalPlayer():GetActiveWeapon()) then
 
-		text(LocalPlayer():GetActiveWeapon():GetPrintName(), 'SFont', a2 + 125, ScrH() - 80, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+		text(LocalPlayer():GetActiveWeapon():GetPrintName(), 'SFont', animationHUD + 125, ScrH() - 80, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
 	
 	end
 
-	text('ПАТРОНЫ', 'Font2', a2 + 125, ScrH() - 45, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+	text('ПАТРОНЫ', 'Font2', animationHUD + 125, ScrH() - 45, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
 	
 	if LocalPlayer():Health() > 0 and IsValid(LocalPlayer():GetActiveWeapon()) then
 		
-		text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetAmmoCount(LocalPlayer():GetActiveWeapon():GetPrimaryAmmoType()), 'SFont', a2 + 125, ScrH() - 30, Color(255, 255, 255, b2), TEXT_ALIGN_CENTER)
+		text(LocalPlayer():GetActiveWeapon():Clip1() .. ' / ' .. LocalPlayer():GetAmmoCount(LocalPlayer():GetActiveWeapon():GetPrimaryAmmoType()), 'SFont', animationHUD + 125, ScrH() - 30, Color(255, 255, 255, alphaLerpHUD), TEXT_ALIGN_CENTER)
 
 	end
 
 end
 
 hook.Add('HUDPaint', 'DrawHUD', MHUD.DrawHUD)
+
+--[[
+======================================================================
+===============================BIND HUD================================
+======================================================================
+]]
 
 function MHUD.ButtonActivate(ply, button)
 		
@@ -205,42 +211,57 @@ end
 
 hook.Add("PlayerButtonDown", "ButtonActivate", MHUD.ButtonActivate)
 
-hook.Add("PostPlayerDraw", "3D2DNicks", function(ply)
-	
-	local Distance = LocalPlayer():GetPos():Distance(ply:GetPos())
+--[[
+======================================================================
+===============================3D2D HUD================================
+======================================================================
+]]
 
-	if not IsValid(ply) then return end 
-	if not ply:Alive() then return end
-	if ply == LocalPlayer() then return end 
-	if ply:SetNoDraw() then return end
+function MHUD.HeadNicks(ply)
+
+	local locply = LocalPlayer()
+	local entTrace = locply:GetEyeTrace().Entity
+	
+	if not entTrace:IsPlayer() then 
+
+		if boxWidthLerp3D > 0 or alphaLerp3D > 0 then
+			
+			boxWidthLerp3D = 0
+			alphaLerp3D = 0
+
+		end
+
+		return 
+
+	end
+
+	if not entTrace:Alive() then return end
+	if ply == locply then return end 
+	if entTrace:SetNoDraw() then return end
+	
+	local Distance = locply:GetPos():Distance(entTrace:GetPos())
+
 	if Distance > 300 then return end
  
 	local offset = Vector(0, 0, 85)
-	local ang = LocalPlayer():EyeAngles()
-	local pos = LocalPlayer():GetEyeTrace().Entity:GetPos() + offset + ang:Up()
+	local ang = locply:EyeAngles()
+	local pos = entTrace:GetPos() + offset + ang:Up()
+
+	local frontPlayerNick = entTrace:Nick()
 	 
 	ang:RotateAroundAxis(ang:Forward(), 90)
 	ang:RotateAroundAxis(ang:Right(), 90)
 		
 	cam.Start3D2D(pos, Angle(0, ang.y, 90), 0.1)
 
-		local multiplayer_lerp = FrameTime()
+		boxWidthLerp3D = Lerp(FrameTime(), boxWidthLerp3D, 1.35 * surface.GetTextSize(frontPlayerNick))
+		alphaLerp3D = Lerp(FrameTime(), alphaLerp3D, 125)
 
-		if LocalPlayer():GetEyeTrace().Entity:IsPlayer() then 
-
-			a = Lerp(multiplayer_lerp, a, 1.35 * surface.GetTextSize(LocalPlayer():GetEyeTrace().Entity:Nick()))
-			b = Lerp(multiplayer_lerp, b, 125)
-
-			box(7, -a / 2, 0, a, 50, Color(35, 35, 35, b))
-			text(LocalPlayer():GetEyeTrace().Entity:Nick(), '3D_Font', 0, 5, Color(255, 255, 255, b), TEXT_ALIGN_CENTER)
-
-		else
-
-			a = 0
-			b = 0
-
-		end
+		box(7, -boxWidthLerp3D / 2, 0, boxWidthLerp3D, 50, Color(35, 35, 35, alphaLerp3D))
+		text(frontPlayerNick, '3D_Font', 0, 5, Color(255, 255, 255, alphaLerp3D), TEXT_ALIGN_CENTER)
 
 	cam.End3D2D()
  
- end)
+end
+
+ hook.Add("PostPlayerDraw", "3D2DNicks", MHUD.HeadNicks)
