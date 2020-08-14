@@ -1,12 +1,22 @@
 local MHUD = {}
 
-local boxWidthLerp3D, alphaLerp3D, animationHUD, alphaLerpHUD = 0, 0, ScrW() * 0 - 250, 0
+local boxWidthLerp3D, boxWidthDescLerp3D, alphaLerp3D, animationHUD, alphaLerpHUD = 0, 0, 0, ScrW() * 0 - 250, 0
 
 surface.CreateFont( "3D_Font", {
 	
 	font = "Verdana",
 	extended = true,
 	size = 32,
+	weight = 500,
+	outline = true,
+
+})
+
+surface.CreateFont( "3D_Font_Desc", {
+	
+	font = "Verdana",
+	extended = true,
+	size = 24,
 	weight = 500,
 	outline = true,
 
@@ -224,9 +234,10 @@ function MHUD.HeadNicks(ply)
 	
 	if not entTrace:IsPlayer() then 
 
-		if boxWidthLerp3D > 0 or alphaLerp3D > 0 then
+		if boxWidthLerp3D > 0 or boxWidthDescLerp3D > 0 or alphaLerp3D > 0 then
 			
 			boxWidthLerp3D = 0
+			boxWidthDescLerp3D = 0
 			alphaLerp3D = 0
 
 		end
@@ -248,17 +259,26 @@ function MHUD.HeadNicks(ply)
 	local pos = entTrace:GetPos() + offset + ang:Up()
 
 	local frontPlayerNick = entTrace:Nick()
+	local description = entTrace:GetPData('Description', 'Нет описания для данного персонажа!')
+
+	local widthN, heightN = surface.GetTextSize(frontPlayerNick)
+	local widthD, heightD = surface.GetTextSize(description)
 	 
 	ang:RotateAroundAxis(ang:Forward(), 90)
 	ang:RotateAroundAxis(ang:Right(), 90)
 		
 	cam.Start3D2D(pos, Angle(0, ang.y, 90), 0.1)
 
-		boxWidthLerp3D = Lerp(0.01, boxWidthLerp3D, 1.35 * surface.GetTextSize(frontPlayerNick))
+		boxWidthLerp3D = Lerp(0.01, boxWidthLerp3D, 1.8 * widthN)
 		alphaLerp3D = Lerp(0.001, alphaLerp3D, 125)
 
 		box(7, -boxWidthLerp3D / 2, 0, boxWidthLerp3D, 50, Color(35, 35, 35, alphaLerp3D))
 		text(frontPlayerNick, '3D_Font', 0, 5, Color(255, 255, 255, alphaLerp3D), TEXT_ALIGN_CENTER)
+
+		boxWidthDescLerp3D = Lerp(0.01, boxWidthDescLerp3D, 1.1 * widthD)
+
+		box(7, -boxWidthDescLerp3D / 2, 65, boxWidthDescLerp3D, 50, Color(35, 35, 35, alphaLerp3D))
+		text(description, '3D_Font_Desc', 0, 76, Color(255, 255, 255, alphaLerp3D), TEXT_ALIGN_CENTER)
 
 	cam.End3D2D()
  
