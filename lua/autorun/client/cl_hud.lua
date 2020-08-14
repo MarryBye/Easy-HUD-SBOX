@@ -259,7 +259,7 @@ function MHUD.HeadNicks(ply)
 	local pos = entTrace:GetPos() + offset + ang:Up()
 
 	local frontPlayerNick = entTrace:Nick()
-	local description = entTrace:GetPData('Description', 'Нет описания для данного персонажа!')
+	local description = entTrace:GetNWString('Desc', 'Описание персонажа отсутствует.')
 
 	local widthN, heightN = surface.GetTextSize(frontPlayerNick)
 	local widthD, heightD = surface.GetTextSize(description)
